@@ -12,12 +12,10 @@ class AppLayout extends Component
      * @return \Illuminate\View\View
      */
 
-    public $categorias;
-public $marcas;
-    public function __construct($categorias,$marcas)
+ 
+    public function __construct()
     {
-        $this->categorias= $categorias;
-          $this-> marcas = $marcas;
+       
     }
     public function render()
     {
