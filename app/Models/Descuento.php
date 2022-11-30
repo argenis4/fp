@@ -10,5 +10,9 @@ class Descuento extends Model
     use HasFactory;
 
     protected $connection = 'ds';
-
+public function descuento(){
+    
+   
 }
+}
+

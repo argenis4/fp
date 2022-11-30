@@ -6,67 +6,68 @@
     </x-slot>
     <div class="py-12">
         <div class=" max-w-7xl mx-auto  flex flex-row  md:grid grid-cols-4 justify-items-center gap-2">
-    @forelse ($descuentosfp as $descuento)
+            @forelse ($descuentosfp as $descuento)
 
-            @if ($descuento->dto_drogueria > 0)
-                @if ($descuento->uni_min > 1)
-                    @switch($descuento->dto_drogueria)
-                        @case(25)
-                            @php
-                                $result = '50% OFF 2da UNID';
-                            @endphp
-                        @break
+                @if ($descuento->dto_drogueria > 0)
+                    @if ($descuento->uni_min > 1)
+                        @switch($descuento->dto_drogueria)
+                            @case(25)
+                                @php
+                                    $result = '50% OFF 2da UNID';
+                                @endphp
+                            @break
 
-                        @case(30)
-                            @php
-                                $result = '60% OFF 2da UNID';
-                            @endphp
-                        @break
+                            @case(30)
+                                @php
+                                    $result = '60% OFF 2da UNID';
+                                @endphp
+                            @break
 
-                        @case(35)
-                            @php
-                                $result = '70% OFF 2da UNID';
-                            @endphp
-                        @break
+                            @case(35)
+                                @php
+                                    $result = '70% OFF 2da UNID';
+                                @endphp
+                            @break
 
-                        @case(40)
-                            @php
-                                $result = '>80% OFF 2da UNID';
-                            @endphp
-                        @break
+                            @case(40)
+                                @php
+                                    $result = '>80% OFF 2da UNID';
+                                @endphp
+                            @break
 
-                        @case(50)
-                            @php
-                                
-                            @endphp
-                        @break
+                            @case(50)
+                                @php
+                                    
+                                @endphp
+                            @break
 
-                        @default
-                            @php
-                                $result = round($descuento->dto_drogueria) . '% OFF';
-                            @endphp
-                    @endswitch
-
-                @else
-                    @php
-                        $result = round($descuento->dto_drogueria) . '% OFF';
-                    @endphp
-                    
+                            @default
+                                @php
+                                    $result = round($descuento->dto_drogueria);
+                                @endphp
+                        @endswitch
+                    @else
+                        @php
+                            $result = round($descuento->dto_drogueria);
+                        @endphp
+                    @endif
                 @endif
 
+                <div class="flex justify-between items-center">
 
-            @endif
+                    <div style="background-clip: content-box, padding-box;background-image:linear-gradient(to bottom, rgb(217 217 217) 0%, rgb(217 217 217) 100%), linear-gradient(to bottom, rgb(70 144 210) 0%, rgb(187 175 177) 100%)"
+                        class=" flex justify-center items-center w-52 h-24 rounded-xl cursor-pointer px-6">
 
-            <div class="flex justify-between items-center">
+                        <p class=" text-5xl text-red-600 font-bold">  {{ $result }}</p>
+                        <div class=" text-gray-600">
+                            <p>%</p>
+                            <p>OFF</p>
+                        </div>
 
-                <div style="background-clip: content-box, padding-box;background-image:linear-gradient(to bottom, rgb(217 217 217) 0%, rgb(217 217 217) 100%), linear-gradient(to bottom, rgb(70 144 210) 0%, rgb(65 140 210) 100%)"
-                    class=" flex justify-center items-center w-52 h-24 rounded-xl cursor-pointer px-6">
-
-                    {{ $result }}
+                    </div>
                 </div>
-            </div>
 
-            @empty
+                @empty
 
                 @endforelse
 
