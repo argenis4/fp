@@ -20,17 +20,17 @@ class TiendaController extends Controller
         $categorias =  $this->categoriasfp();
         $marcas =     $this->marcasfp();
           $descuentosfp =     $this->descuentosfp();
-
+/*
         $publications = DB::connection('ds')->table('publications')->select('imagen')
             ->where('habilitada', '=', 1)
             ->where('ubicacion', '=', 14)->get();
-
+*/
 
         return view('tienda', [
             'provincias' => $provincias,
             'categorias' => $categorias,
             'marcas' => $marcas,
-            'publications' => $publications,
+       //     'publications' => $publications,
               'descuentosfp' => $descuentosfp,
         ]);
     }
