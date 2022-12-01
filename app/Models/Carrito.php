@@ -10,26 +10,19 @@ class Carrito extends Model
     use HasFactory;
 
     protected $fillable = [
-        'cantidad' .
-        'precio_publico',
-        'articulo_id',
         'user_id',
-        'descuento_id',
-        'unidad_minima',
-        'categoria_id',
-        'tipo_precio',
-        'plazoley_dcto',
-        'tipo_oferta',
-        'tipo_oferta_elegida',
-        'descripcion',
-        'tipo_fact'
+        
     ];
 
 
-  public function carritos(){
+  public function carritosItems(){
 
-    return $this->hasMany(Articulo::class);
+    return $this->hasMany(CarritoItem::class);
 }
 
+
+ public function checkItems(User $user){
+    return $this->carritosItems->contains('user_id', $user->id);
+ }
 
 }

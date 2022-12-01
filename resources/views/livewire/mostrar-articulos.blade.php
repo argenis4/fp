@@ -94,13 +94,10 @@
 
 
                         </div>
-                       
-                           <x-primary-button class=" w-full md:w-60 my-3 mx-1  text-center justify-center bg-green-600" wire:click="addCarrito({{$articulo->id,$articulo->descuento->id}})">
+                  
+                             <x-primary-button class=" w-full md:w-60 my-3 mx-1  text-center justify-center bg-green-600" wire:click="addCarrito({{$articulo->articulo_id}},{{$articulo->id}},1)">
                                Agregar
-                                 <input type="hidden" value="1" wire:model="cantidad">
                             </x-primary-button> 
-                            
-                       
                     </div>
                 @endif
             @endforeach
