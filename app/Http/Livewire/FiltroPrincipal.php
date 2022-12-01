@@ -16,6 +16,7 @@ class FiltroPrincipal extends Component
 
         $marcas = $this->marcasfp();
         $categorias = $this->categoriasfp();
+        
        
         return view('livewire.filtro-principal', [
             'marcas' => $marcas,

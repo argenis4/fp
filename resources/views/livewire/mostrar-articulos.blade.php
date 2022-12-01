@@ -33,10 +33,10 @@
                     $val++;
                 @endphp
                 @if ($val < 4)
-                    <div class="border bg-gray-200 rounded-xl ">
+                    <div class="border bg-white rounded-xl ">
                         <p><img class=" w-full" src="{{ asset('img/productos/producto.png') }}" height="160px"
                                 width="160px" alt="Imagen producto"></p>
-                        <hr class="border-b border-red-300">
+                        <hr class="border-b border-gray-300">
                         <p class=" font-semibold mb-3 text-center h-12">{{ $articulo->descripcion_pag }}</p>
                         <p class=" text-lg text-red-700  text-center font-bold">
 
@@ -94,9 +94,9 @@
 
 
                         </div>
-
-                           <x-primary-button class=" w-full md:w-60 my-3 mx-1  text-center justify-center bg-green-600">
-                        Agregar
+                  
+                             <x-primary-button class=" w-full md:w-60 my-3 mx-1  text-center justify-center bg-green-600" wire:click="addCarrito({{$articulo->articulo_id}},{{$articulo->id}},1)">
+                               Agregar
                             </x-primary-button> 
                     </div>
                 @endif

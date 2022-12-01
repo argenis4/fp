@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/tienda', [TiendaController::class, 'index'])->middleware(['auth', 'verified'])->name('tienda');
+Route::get('/tienda/{articulo}', [TiendaController::class, 'index'])->middleware(['auth', 'verified'])->name('tienda.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
