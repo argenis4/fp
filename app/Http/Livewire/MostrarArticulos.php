@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
 use App\Models\Carrito;
 use Livewire\Component;
 use App\Models\Articulo;
+use App\Models\Descuento;
 use App\Models\CarritoItem;
-use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,25 +20,36 @@ class MostrarArticulos extends Component
     public $titulo;
     public $articulo_id;
     public $descuento_id;
-    public $cantidad;
+    public $users;
+    public $cantidad = 1;
+ 
 
-    public function mount(Carrito  $carritos)
+    public function mount()
     {
     }
 
-    public function render()
+    public function render(User $users)
     {
-        $articulos = DB::connection('ds')->table('articulos')->join('descuentos', function ($join) {
+        $articulos = DB::connection('ds')->table('articulos')->where('stock', '<>', 'F')
+            ->where('stock', '<>', 'D')
+            ->whereNotIn('imagen',  ["sinimagen.png", "perfumeria.jpg", "medicamento.jpg"])
+
+            ->leftJoin('descuentos', 'articulos.id', '=', 'descuentos.articulo_id')
+            /*
+        ->join('descuentos', function ($join) {
             $join->on('articulos.id', '=', 'descuentos.articulo_id')
                 ->where('descuentos.tipo_venta', '=', 'D',)
                 ->where('descuentos.tipo_oferta', '=', 'FP');
-        })->where('eliminado', 0)
-            ->where('stock', '<>', 'F')
-            ->where('stock', '<>', 'D')
-            ->whereNotIn('imagen',  ["sinimagen.png", "perfumeria.jpg", "medicamento.jpg"])->get();
+        })
+        */
+            ->where('descuentos.tipo_venta', '=', 'D',)
+            ->where('descuentos.tipo_oferta', '=', 'FP')
+            ->where('eliminado', 0)
+            ->get();
 
 
         $articulos->toArray();
+
 
         return view('livewire.mostrar-articulos', [
             'articulos' => $articulos,
@@ -47,80 +59,74 @@ class MostrarArticulos extends Component
         ]);
     }
 
-    public function addCarrito($a, $b, $c)
-
+    public function addCarrito(Articulo $articulos, Descuento $descuentos, $cant)
     {
         $carritos = DB::table('carritos')
             ->where('user_id', '=', auth()->user()->id)->first();
 
-
-
         if ($carritos) {
-            
-             CarritoItem::create([
-                   'cantidad' => 1,
-                    'precio_publico' => 43456,
-                    'articulo_id' => 22913,
-                     'user_id' => auth()->user()->id,
-                     'carrito_id'=> $carritos->id,
-                    'descuento_id' => 99321884,
-                    'unidad_minima' => 1,
-                    'categoria_id' => 5,
-                    'tipo_precio' =>"d",
-                    'plazoley_dcto' => "habitual",
-                    'tipo_oferta' => "j",
-                    'tipo_oferta_elegida' => "f",
-                    'descripcion' => "AVENO JABON X 120 GR",
-                    'tipo_fact' => "s",         
-             ]);
+                if($carritos->carritoitems->contains('articulo_id', $articulos->id)()){
 
-            dd();
+
+                }else{
+
+                    CarritoItem::create([
+                'cantidad' => $cant,
+                'precio_publico' => $articulos->precio_publico,
+                'articulo_id' => $articulos->id,
+                'user_id' => auth()->user()->id,
+                'carrito_id' => $carritos->id,
+                'descuento_id' => $descuentos->id,
+                'unidad_minima' => $descuentos->uni_min,
+                'categoria_id' => $articulos->categoria_id,
+                'tipo_precio' => $descuentos->tipo_precio,
+                'plazoley_dcto' => $descuentos->plazo,
+                'tipo_oferta' => $descuentos->tipo_oferta,
+                'tipo_oferta_elegida' => "f",
+                'descripcion' => $articulos->descripcion_pag,
+                'tipo_fact' => "s",
+            ]);
+
+                }
+            
+
+
+            
         } else {
 
             $carritos = Carrito::create([
                 'user_id' => auth()->user()->id,
             ]);
-            
-                $carritos->toArray();
-             CarritoItem::create([
-                   'cantidad' => 1,
-                    'precio_publico' => 43456,
-                    'articulo_id' => 1436,
-                    'user_id' => auth()->user()->id,
-                    'carrito_id'=> $carritos->id,
-                    'descuento_id' => 99321884,
-                    'unidad_minima' => 1,
-                    'categoria_id' => 5,
-                    'tipo_precio' =>"d",
-                    'plazoley_dcto' => "habitual",
-                    'tipo_oferta' => "j",
-                    'tipo_oferta_elegida' => "f",
-                    'descripcion' => "AVENO JABON X 120 GR",
-                    'tipo_fact' => "s",         
-             ]);
+
+            $carritos->toArray();
+            CarritoItem::create([
+                'cantidad' => $cant,
+                'precio_publico' => $articulos->precio_publico,
+                'articulo_id' => $articulos->id,
+                'user_id' => auth()->user()->id,
+                'carrito_id' => $carritos->id,
+                'descuento_id' => $descuentos->id,
+                'unidad_minima' => $descuentos->uni_min,
+                'categoria_id' => $articulos->categoria_id,
+                'tipo_precio' => $descuentos->tipo_precio,
+                'plazoley_dcto' => $descuentos->plazo,
+                'tipo_oferta' => $descuentos->tipo_oferta,
+                'tipo_oferta_elegida' => "f",
+                'descripcion' => $articulos->descripcion_pag,
+                'tipo_fact' => "s",
+            ]);
         }
+    }
 
 
+    function increment()
+    {
+             $this->cantidad++;
+    }
 
-        /*
-             CarritoItem::create([
-                   'cantidad' => $c,
-                    'precio_publico' => $articulos->precio_publico,
-                    'articulo_id' => $articulos->articulo_id,
-                    'user_id' => auth()->user()->id,
-                    'descuento_id' => $articulos->id,
-                    'unidad_minima' => $articulos->unidad_minima,
-                    'categoria_id' => $articulos->categoria_id,
-                    'tipo_precio' => $articulos->tipo_precio,
-                    'plazoley_dcto' => $articulos->plazoley_dcto,
-                    'tipo_oferta' => $articulos->tipo_oferta,
-                    'tipo_oferta_elegida' => $articulos->tipo_oferta_elegida,
-                    'descripcion' => $articulos->descripcion,
-                    'tipo_fact' => $articulos->tipo_fact,         
-             ]);
+    function decrement()
+    {
+            $this->cantidad--;
 
-           
- 
-            */
     }
 }

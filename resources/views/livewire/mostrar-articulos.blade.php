@@ -1,8 +1,8 @@
-<div class="p-6 text-gray-900 " style="{{ $stilus }}" >
-    <div class="flex flex-col items-center md:flex-row " >
+<div class="p-6 text-gray-900 " style="{{ $stilus }}">
+    <div class="flex flex-col items-center md:flex-row ">
         <div class=" w-4/12 text-center flex justify-center items-center">
 
-            <p class=" text-4xl mb-4 md:text-4xl font-bold">{{$titulo}}</p>
+            <p class=" text-4xl mb-4 md:text-4xl font-bold">{{ $titulo }}</p>
         </div>
 
         <div class=" w-8/12 flex flex-col  md:grid grid-cols-3 gap-4">
@@ -85,22 +85,43 @@
                                     </p>
 
                                     <p class="mx-2 font-bold text-lg">$ @php
-                                       echo number_format(round($precio_con_dcto, 3), 2, ',', '.');
+                                        echo number_format(round($precio_con_dcto, 3), 2, ',', '.');
                                     @endphp
                                     </p>
-                                 
                                 @endif
                             @endif
 
 
                         </div>
-                  
-                             <x-primary-button class=" w-full md:w-60 my-3 mx-1  text-center justify-center bg-green-600" wire:click="addCarrito({{$articulo->articulo_id}},{{$articulo->id}},1)">
-                               Agregar
-                            </x-primary-button> 
+                        @if (auth()->user()->buscarArticulo($articulo->articulo_id))
+                    @php
+                    //Esta funcion es provisoria debo buscar la forma de mostrar los datos.
+                       $carrito = auth()->user()->articulosCarrito($articulo->articulo_id);
+            
+                    @endphp
+                  <div class=" flex bg-gray-200 items-center m-2 border-gra rounded-xl">
+                                <x-primary-button
+                                    class="w-10  md:w-60 my-3 mx-1  text-center justify-center bg-red-400"    wire:click="decrement" >-
+                                </x-primary-button>
+                                <input type="text" class=" w-20 h-9 text-center border-0 bg-transparent text-bold"
+                                    value="{{$carrito}}">
+                                <x-primary-button
+                                    class=" w-full md:w-60 my-3 mx-1  text-center justify-center bg-green-400" wire:click="increment" >+
+                                </x-primary-button>
+                         
                     </div>
+                @else
+                
+                        <div class=" flex  bg-gray-200 m-2 border-gra rounded-xl">
+                            <x-primary-button class=" w-full md:w-60 my-3 mx-1  text-center justify-center bg-green-400"
+                                wire:click="addCarrito({{ $articulo->articulo_id }},{{ $articulo->id }},1)">
+                                Agregar
+                            </x-primary-button>
+                        </div>
                 @endif
-            @endforeach
         </div>
+        @endif
+        @endforeach
     </div>
+</div>
 </div>

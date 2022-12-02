@@ -27,15 +27,23 @@ class CarritoItem extends Model
     ];
 
  public function articulos(){
-    return $this->hasMany(Articulo::class,'articulo_id'); 
+    return $this->hasMany(Articulo::class,'id','articulo_id');
 
 
  }
 
+
+
+
+/*
  public function carrito(){
     return $this->hasMany(Carrito::class);  
  }
  
+ */
+  
+
+
 
 
 }

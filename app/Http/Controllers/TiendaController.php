@@ -19,7 +19,7 @@ class TiendaController extends Controller
         $provincias = Provincia::all();
         $categorias =  $this->categoriasfp();
         $marcas =     $this->marcasfp();
-          $descuentosfp =     $this->descuentosfp();
+        $descuentosfp =     $this->descuentosfp();
 
         $publications = DB::connection('ds')->table('publications')->select('imagen')
             ->where('habilitada', '=', 1)

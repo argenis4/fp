@@ -14,19 +14,17 @@ protected $connection = 'ds';
 
 public function descuento(){
 
-return $this->hasMany(Descuento::class,'articulo_id',);
+return $this->hasOne(Descuento::class,'articulo_id','local_key');
 
 }
 
 
-public function carritos(){
+public function carritositem(){
 
-return $this->hasMany(Carrito::class);
+return $this->hasMany(Carrito::class,'articulo_id','local_key');
 
 }
 
-public function validateArticulo(){
-    
-}
+
 
 }

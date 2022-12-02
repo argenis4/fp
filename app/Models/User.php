@@ -52,6 +52,22 @@ class User extends Authenticatable
     return $this->hasOne(Carrito::class);
      }
 
+          public function carritositems()
+     {
+    return $this->hasMany(CarritoItem::class);
+     }
 
-    
+
+          public function buscarArticulo($articulo)
+     {
+        return $this->carritos->carritositems->contains('articulo_id', $articulo);
+     }
+
+        //esta funcion es provisoria debo buscar la forma de mostrar los datos.
+      public function articulosCarrito($articulo)
+     {   $cantidad = CarritoItem::select('cantidad')->whereIn('articulo_id', [$articulo])->get();
+    return $cantidad;
+     }
+
+
 }

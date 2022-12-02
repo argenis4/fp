@@ -21,8 +21,13 @@ class Carrito extends Model
 }
 
 
+  public function articuloCarritoItems($articulo)
+  {
+        return $this->carritosItems->contains('articulo_id', $articulo);
+  }
+/*
  public function checkItems(User $user){
     return $this->carritosItems->contains('user_id', $user->id);
- }
+ }*/
 
 }
