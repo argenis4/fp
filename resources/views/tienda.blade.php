@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-carrousel :publications="$publications">
+        {{-- <x-carrousel :publications="$publications">
 
-        </x-carrousel>
+        </x-carrousel> --}}
     </x-slot>
     <div class="py-12">
         <div class=" max-w-7xl mx-auto  flex flex-row  md:grid grid-cols-4 justify-items-center gap-2">
