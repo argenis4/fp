@@ -97,16 +97,21 @@
                     @php
                     //Esta funcion es provisoria debo buscar la forma de mostrar los datos.
                        $carrito = auth()->user()->articulosCarrito($articulo->articulo_id);
-            
+               
+                
                     @endphp
                   <div class=" flex bg-gray-200 items-center m-2 border-gra rounded-xl">
                                 <x-primary-button
-                                    class="w-10  md:w-60 my-3 mx-1  text-center justify-center bg-red-400"    wire:click="decrement" >-
-                                </x-primary-button>
+                                    class="w-10  md:w-60 my-3 mx-1  text-center justify-center bg-red-400"    wire:click="decrement({{$cantidadmodificada ? $cantidadmodificada :intval($carrito[0]['cantidad'])}})" >-
+                                </x-primary-button
                                 <input type="text" class=" w-20 h-9 text-center border-0 bg-transparent text-bold"
-                                    value="{{$carrito}}">
+
+                                    value="{{$cantidadmodificada ? $cantidadmodificada :intval($carrito[0]['cantidad'])}}"
+                                    wire:model:cantidadmodificada>
+
+                                    
                                 <x-primary-button
-                                    class=" w-full md:w-60 my-3 mx-1  text-center justify-center bg-green-400" wire:click="increment" >+
+                                    class=" w-full md:w-60 my-3 mx-1  text-center justify-center bg-green-400" wire:click="increment({{$cantidadmodificada ? $cantidadmodificada :intval($carrito[0]['cantidad'])}})" >+
                                 </x-primary-button>
                          
                     </div>

@@ -21,7 +21,7 @@ class MostrarArticulos extends Component
     public $articulo_id;
     public $descuento_id;
     public $users;
-    public $cantidad = 1;
+    public $cantidadmodificada;
  
 
     public function mount()
@@ -65,7 +65,7 @@ class MostrarArticulos extends Component
             ->where('user_id', '=', auth()->user()->id)->first();
 
         if ($carritos) {
-                if($carritos->carritoitems->contains('articulo_id', $articulos->id)()){
+                if($articulos->carritositem->contains('articulo_id', $articulos->id)){
 
 
                 }else{
@@ -119,14 +119,17 @@ class MostrarArticulos extends Component
     }
 
 
-    function increment()
+    function increment($cantidad)
     {
-             $this->cantidad++;
+           
+        $cantidad++;
+         $this->cantidadmodificada =   $cantidad;
     }
 
-    function decrement()
+    function decrement($cantidad)
     {
-            $this->cantidad--;
-
+         
+        $cantidad--;
+                $this->cantidadmodificada =   $cantidad;
     }
 }
